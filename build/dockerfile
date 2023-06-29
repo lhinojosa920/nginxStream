@@ -1,0 +1,23 @@
+FROM alpine:latest
+
+LABEL AUTHOR:Luis Hinojosa
+
+RUN apk add nginx &&\
+    apk add nginx-mod-rtmp &&\
+    mkdir -p /usr/local/nginx/html/stream/hls &&\
+    apk add git npm &&\
+    mkdir -p /var/www/html/videojs &&\
+    cd /var/www/html/videojs &&\
+    wget https://github.com/videojs/video.js/releases/download/v7.7.6/video-js-7.7.6.zip &&\
+    wget https://github.com/videojs/http-streaming/releases/download/v1.13.1/videojs-http-streaming.js &&\
+    unzip video-js-7.7.6.zip
+
+
+
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./index.html /var/www/html/index.html
+
+EXPOSE 1935 80
+
+ENTRYPOINT [ "/usr/sbin/nginx","-g", "daemon off;" ]
+#CMD [sleep 100000]

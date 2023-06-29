@@ -1,0 +1,1 @@
+docker run -p 80:80 -p 1935:1935 nginxstreams:0.0.4 /usr/sbin/nginx -g "daemon off;" 
